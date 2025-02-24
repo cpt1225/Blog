@@ -9,6 +9,7 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement()) @map("id")
+  avatar        String         @default("default.png") @map("avatar")
   username   String?  @unique @map("username")
   email      String   @unique @map("email")
   createTime DateTime @default(now()) @map("create_time")
