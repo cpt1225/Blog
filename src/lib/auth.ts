@@ -26,16 +26,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         })
 
         if(!user) {
-          throw new Error('用户不存在')
+          return null;
         }
         // 验证密码
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
-          throw new Error('密码错误');
+          return null;
         }
 
         // 返回用户信息
-        return { id: user.id.toString(), email: user.email, name: user.role };
+        return { id: user.id.toString(), email: user.email, name: user.role , image };
       }
     })
   ],
