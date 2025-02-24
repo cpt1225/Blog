@@ -35,8 +35,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         // 返回用户信息
-        return { id: user.id.toString(), email: user.email, name: user.role , image };
+        return { id: user.id.toString(), email: user.email, name: user.role , image:user.avatar };
       }
     })
   ],
+  session: {
+    strategy: "jwt"
+  },
+  pages: {
+    signIn: "/signin"
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      // 用户登录成功后，将用户角色注入 JWT
+      if (user) token.name = user.name;
+      return token;
+    },
+    async session({ session, token }) {
+      // 将 JWT 中的角色信息传递到会话（Session）
+      session.user.name = token.name;
+      return session;
+    }
+  }
 })
