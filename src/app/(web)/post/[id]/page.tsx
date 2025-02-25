@@ -1,7 +1,7 @@
-// app/posts/[id]/page.tsx
+
 import prisma from '@/lib/prisma';
 
-export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params; 
   const postId = Number(id);
 
