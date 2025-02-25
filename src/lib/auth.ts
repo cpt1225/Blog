@@ -48,12 +48,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       // 用户登录成功后，将用户角色注入 JWT
-      if (user) token.name = user.name;
+      if (user) { 
+        token.name = user.name;
+        token.id = user.id;
+      }
       return token;
     },
     async session({ session, token }) {
       // 将 JWT 中的角色信息传递到会话（Session）
+      if(token.id && token.name) {
       session.user.name = token.name;
+      session.user.id = token.id as string;
+      }
       return session;
     }
   }
