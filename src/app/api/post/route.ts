@@ -8,6 +8,7 @@ export async function GET() {
       orderBy: { id: 'desc' },
       include: { author: true },
     });
+    
     return NextResponse.json(posts);
   } catch(error) {
     console.log('error', error);
@@ -16,12 +17,15 @@ export async function GET() {
 }
 
 export async function POST(req:NextRequest) {
-  try{
-    const session = await auth();
-    if(!session || !session.user || !session.user.name) {
+  const { title, content } = await req.json();
+  const session = await auth();
+    if(!session || !session.user || !session.user.name || !session.user.id) {
       return NextResponse.json({message: '还没有登录'}, {status: 401});
     }
-    const { title, content } = await req.json();
+  try{
+    if(!content || !content.trim() || !title || !title.trim()){
+      return NextResponse.json({message: '参数不完整'})
+    }
     await prisma.post.create({
       data: {
         title,

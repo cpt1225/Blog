@@ -24,6 +24,5 @@ model Post {
   content    String   @map("content")
   createTime DateTime @default(now()) @map("create_time")
   authorId   Int      @map("author_id")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   author     User     @relation(fields: [authorId], references: [id]) 
 }

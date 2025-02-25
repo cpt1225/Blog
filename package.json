@@ -20,7 +20,8 @@
     "next-auth": "^5.0.0-beta.25",
     "nodemailer": "^6.10.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
