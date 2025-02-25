@@ -11,7 +11,7 @@ const Page = () => {
     async function fetchData() {
       setIsLoading(true)
       try{
-        const res = await request({url: '/posts'})
+        const res = await request({url: '/post'})
         if(res.status !== 200) {
           throw new Error('未获取到博客')
         }
