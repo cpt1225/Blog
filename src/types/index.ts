@@ -1,18 +1,19 @@
 
-export interface user {
+export interface User {
   id: number;
   username: string;
   avatar: string;
   email: string;
   role: string;
-  created_at: Date;
+  createdTime: Date;
 }
 
-export interface post {
+export interface Post {
   id: number;
   title: string;
   content: string;
-  author_id: number;
-  created_at: Date;
-  updated_at: Date;
+  authorId: number;
+  createdTime: Date;
+  updatedAt: Date;
+  user:User
 }

@@ -15,13 +15,15 @@ model User {
   createTime DateTime @default(now()) @map("create_time")
   password   String   @map("password")
   role       String?  @default("user") @map("role")
+  posts      Post[]   
 }
 
-model Article {
+model Post {
   id         Int      @id @default(autoincrement()) @map("id")
   title      String?  @map("title")
   content    String   @map("content")
   createTime DateTime @default(now()) @map("create_time")
   authorId   Int      @map("author_id")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  author     User     @relation(fields: [authorId], references: [id]) 
 }

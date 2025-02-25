@@ -4,7 +4,7 @@ import redis from "@/lib/redis";
 
 export async function POST(request: NextRequest) {
   try{
-    const {email} = await request.json();
+    const { email } = await request.json();
     if(!email){
       return NextResponse.json({message: '请输入你的邮箱'})
     }
