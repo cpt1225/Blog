@@ -15,6 +15,7 @@
     "@types/nodemailer": "^6.4.17",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
+    "framer-motion": "^12.4.7",
     "ioredis": "^5.5.0",
     "next": "15.1.7",
     "next-auth": "^5.0.0-beta.25",
