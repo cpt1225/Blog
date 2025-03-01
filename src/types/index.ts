@@ -16,3 +16,9 @@ export interface Post {
   createdTime: Date;
   user:User
 }
+
+export interface Feature {
+  name: string;
+  description: string;
+  icon: string;
+}

@@ -61,7 +61,7 @@ export default function Navbar() {
           </Link>
           <Link
             href="/post"
-            className="text-sm font-medium text-gray-700 transition-colors"
+            className="text-sm font-medium text-gray-700 transition-colors hover:text-blue-600"
           >
             Blog
           </Link>

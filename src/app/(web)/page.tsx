@@ -1,17 +1,16 @@
-
+import Hero from "@/components/Page/Hero"
+import Feature from "@/components/Page/Feature"
 
 const Home = () => {
   return(
-    <div className="">
-      <Main />
+    <div className="min-h-screen">
+      <Hero />
+      <Feature />
     </div>
   )
 }
 
-const Main = () => {
-  return (
-    <div className="flex items-center justify-center">11111</div>
-  )
-}
+
+
 
 export default Home
