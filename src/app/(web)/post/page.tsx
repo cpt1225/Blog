@@ -27,7 +27,7 @@ const Page = () => {
   }, [])
   return (
     <div>
-      <h1>博客列表</h1>
+      
       {isloading ? (
         <div>加载中...</div>
       ) : (
