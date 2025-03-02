@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion'
 import FeatureCard from './FeatureCard';
+import type { Feature } from '@/types'; // 仅导入类型
 
 const features = [
   {
@@ -67,7 +68,7 @@ const features = [
 
 const Feature = () => {
   return (
-   
+
     <section className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
@@ -93,7 +94,7 @@ const Feature = () => {
             className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3"
           >
             {features.map((feature, index) => (
-              <FeatureCard key={index} feature={feature} />
+              <FeatureCard key={feature.name} feature={feature} index={index} />
             ))}
           </motion.div>
         </div>

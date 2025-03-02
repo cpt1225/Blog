@@ -20,5 +20,5 @@ export interface Post {
 export interface Feature {
   name: string;
   description: string;
-  icon: string;
+  icon: React.ReactNode;
 }
