@@ -35,7 +35,7 @@ const Page = () => {
         const data = await response.data;
         alert(data.message);
     } catch (_) {
-      console.log('发送验证码失败', _);
+      alert(_);
     }
   }
   return (
