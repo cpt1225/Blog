@@ -13,7 +13,7 @@ export interface Post {
   title: string;
   content: string;
   authorId: number;
-  createdTime: Date;
+  createTime: Date;
   user:User
 }
 
