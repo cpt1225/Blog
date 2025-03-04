@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
+    "@heroui/system": "^2.4.11",
+    "@heroui/theme": "^2.4.11",
     "@prisma/client": "^6.4.1",
     "@types/ioredis": "^4.28.10",
     "@types/nodemailer": "^6.4.17",
@@ -31,6 +33,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "postcss": "^8",

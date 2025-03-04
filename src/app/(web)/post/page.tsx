@@ -35,12 +35,12 @@ const Page = () => {
           <div>加载中...</div>
         ) : (
           posts.length > 0 ?
-            (<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-              {posts.map((post,index) => (
-                <BlogCard key={post.id} post={post} index={index} />
-              )
-              )}
-            </div>
+            (<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 mb-20">
+                {posts.map((post, index) => (
+                  <BlogCard key={post.id} post={post} index={index} />
+                )
+                )}
+              </div>
             ) : (
               <div>{error || 'hello'}</div>
             )
