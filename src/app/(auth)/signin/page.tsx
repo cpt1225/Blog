@@ -25,7 +25,10 @@ const Page = () => {
     if (result?.error) {
       toast.warn('邮箱或密码错误');
     } else {
-      route.push('/');
+      toast.success('登录成功');
+      setTimeout(() => {
+        route.push('/')
+      }, 2000);
     }
   };
   return (

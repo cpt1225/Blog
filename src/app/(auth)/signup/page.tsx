@@ -18,17 +18,16 @@ const Page = () => {
 
   const register = async () => {
     try {
-      const response = await request({
+      const res= await request({
         url: '/auth/signup',
         method: 'POST',
         data: { username, password, email, code },
       });
-      const data = await response.data;
-      if (data.code === 200) {
-        toast.success(data.message);
+      if (res.data.status === 200) {
+        toast.success(res.data.message);
         route.push('/signin');
       } else {
-        toast.warn(data.message);
+        toast.warn(res.data.message);
       }
     } catch {
       toast.error('系统错误')

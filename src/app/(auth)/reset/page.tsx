@@ -26,7 +26,7 @@ const Page = () => {
         method: 'POST',
         data: { email, newPassword, code }
       })
-      if (res.data.code === 200) {
+      if (res.data.status === 200) {
         toast.success('重置成功');
         setTimeout(() => {
           route.push('/signin')
@@ -47,8 +47,11 @@ const Page = () => {
         method: 'POST',
         data: { email }
       })
-      if(res.data.code === 200) {
+      if(res.data.status === 200) {
         toast.success('发送成功');
+        setTimeout(() => {
+          route.push('/signin')
+        }, 2000);
       } else {
         toast.error(res.data.message)
       }
