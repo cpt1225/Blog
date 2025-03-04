@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import  session  from '@/utils/session';
+import session from '@/utils/session';
 
 
-export async function GET(_request: NextRequest,  { params }: { params: Promise<{ id: string }> }) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
     const post = await prisma.post.findUnique({
@@ -20,79 +20,76 @@ export async function GET(_request: NextRequest,  { params }: { params: Promise<
     }
 
     return NextResponse.json({ post });
-  } catch (error) {
-    console.log(error);
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch post' }, { status: 500 });
   }
 }
 
-const checkblog = async (userid:string,role:string,id:string) => {
-  try{
+const checkblog = async (userid: string, role: string, id: string) => {
+  try {
     const post = await prisma.post.findUnique({
-      where: { id : Number(id) },
+      where: { id: Number(id) },
     });
-    if(!post){
-      return NextResponse.json({message: "博客不存在" });
+    if (!post) {
+      return NextResponse.json({ message: "博客不存在" });
     }
-    if(post.authorId!== Number(userid) && role === 'user'){
+    if (post.authorId !== Number(userid) && role === 'user') {
       return post;
     }
     return null;
-  }catch (_){
-    console.log(_)
+  } catch {
+    return NextResponse.json({ message: "找不到该博客" });
   }
 }
 
-export async function PUT(request: NextRequest, { params }:   { params: Promise<{ id: string }>}) {
-  const { id } = await params;
-  try{
-    const {title, content} = await request.json();
-
-    if(!title || !content || !title.trim() || !title.trim()){
-      return NextResponse.json({message: "参数不完整" });
-    }
-    const {userid,role} = await session();
-    if(!userid ){
-      return NextResponse.json({message: "请登录" });
-    }
-    const message = await checkblog(userid,role,id);
-    if(message){
-      return NextResponse.json({message: "权限不足" });
-    }
-    const res = await prisma.post.update({
-      where: { id: Number(id) },
-      data: {
-        title:title,
-        content:content,
-      },
-    });
-    console.log(res);
-    return NextResponse.json({message: "更新成功" });
-  }catch(_){
-    console.log(_);
-  }
-}
-
-export async function DELETE(request: NextRequest,  { params }: { params: Promise<{ id: string }>}) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    const {userid,role} = await session();
-    if(!userid){
-      return NextResponse.json({message: "权限不足" });
+    const { title, content } = await request.json();
+
+    if (!title || !content || !title.trim() || !title.trim()) {
+      return NextResponse.json({ message: "参数不完整" });
     }
-    const message = await checkblog(userid,role,id);
-    if(message){
-      return NextResponse.json({message: "权限不足" });
+    const { userid, role } = await session();
+    if (!userid) {
+      return NextResponse.json({ message: "请登录" });
     }
-    const post =await prisma.post.delete(
-      {where: { id: Number(id) },}
-    )
-    console.log(post)
-    if(post){
-      return NextResponse.json({message: "删除成功" });
+    const message = await checkblog(userid, role, id);
+    if (message) {
+      return NextResponse.json({ message: "权限不足" });
     }
-    return NextResponse.json({message: "删除失败" });
-  }catch(_){
-    console.log(_)
+    await prisma.post.update({
+      where: { id: Number(id) },
+      data: {
+        title: title,
+        content: content,
+      },
+    });
+    return NextResponse.json({ message: "更新成功" });
+  } catch {
+    return NextResponse.json({ message: "系统错误" });
+  }
+}
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  try {
+    const { userid, role } = await session();
+    if (!userid) {
+      return NextResponse.json({ message: "权限不足" });
+    }
+    const message = await checkblog(userid, role, id);
+    if (message) {
+      return NextResponse.json({ message: "权限不足" });
+    }
+    const post = await prisma.post.delete(
+      { where: { id: Number(id) }, }
+    );
+    if (post) {
+      return NextResponse.json({ message: "删除成功" });
+    }
+    return NextResponse.json({ message: "删除失败" });
+  } catch {
+    return NextResponse.json({ message: "系统错误" });
   }
 }

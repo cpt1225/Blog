@@ -31,8 +31,7 @@ export  async function POST(request: NextRequest) {
       },
     });
     return NextResponse.json({message: '注册成功'})
-  }catch (_){
-    console.log('注册失败',_)
+  }catch {
     return NextResponse.json({message: 'error'},{status:500})
   }
 }

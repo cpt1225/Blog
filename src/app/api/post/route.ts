@@ -10,8 +10,7 @@ export async function GET() {
     });
     
     return NextResponse.json(posts);
-  } catch(error) {
-    console.log('error', error);
+  } catch {
     return NextResponse.json({message: 'error'}, {status: 500});
   }
 }
@@ -34,8 +33,7 @@ export async function POST(req:NextRequest) {
       }
     });
     return NextResponse.json({message: '保存成功'});
-  } catch(error) {
-    console.log('error', error);
+  } catch {
     return NextResponse.json({message: 'error'}, {status: 500});
   }
 }

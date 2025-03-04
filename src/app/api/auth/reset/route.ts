@@ -24,8 +24,7 @@ export  async function POST(request: NextRequest) {
       data: { password }
     })
     return NextResponse.json({message: '更新成功'})
-  }catch (_){
-    console.log('密码修改失败',_)
+  }catch {
     return NextResponse.json({message: 'error'},{status:500})
   }
 }

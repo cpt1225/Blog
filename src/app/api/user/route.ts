@@ -18,12 +18,12 @@ export async function GET() {
       }
     })
     if(!users){
-      return NextResponse.json({message: "未获取到用户" });
+      return NextResponse.json({message: "未获取用户" });
     }
     return NextResponse.json({users});
-  } catch(error) {
-    console.log(error);
-    return NextResponse.json({message: "系统出问题了" });
+  } catch {
+
+    return NextResponse.json({message: "系统错误" });
   }
 }
 
@@ -59,8 +59,7 @@ export const PUT = async (request:NextRequest) => {
       default:
         return NextResponse.json({message:'操作失败'});
     }
-  }catch (_){
-    console.log(_)
+  }catch {
     return NextResponse.json({message:'系统错误'});
   }
 }
