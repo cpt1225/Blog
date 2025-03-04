@@ -35,16 +35,15 @@ const Page = () => {
   }
   const sendCode = async () => {
     try {
-      const response = await request({
+      const res = await request({
         url: '/auth/makeotp',
         method: 'POST',
         data: { email },
       });
-      const data = await response.data;
-      if (data.code === 200) {
-        toast.success(data.message);
+      if (res.data.status === 200) {
+        toast.success(res.data.message);
       } else {
-        toast.warn(data.message);
+        toast.warn(res.data.message);
       }
     } catch {
       toast.error('发送失败');
