@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Page = () => {
@@ -22,7 +23,7 @@ const Page = () => {
     });
 
     if (result?.error) {
-      
+      toast('用户名或密码错误')
     } else {
       route.push('/');
     }
@@ -37,7 +38,7 @@ const Page = () => {
             damping: 10,  // 临界阻尼
             stiffness: 120
           }}
-          className="w-1/2 border-1 border-gray-400 p-10 flex-col rounded-lg flex justify-center  items-center">
+          className="w-1/2 border-1 border-gray-400 p-10 pb-6 flex-col rounded-lg flex justify-center  items-center">
           <h1 className="text-xl font-semibold text-blue-500 text-nowrap">Welcome back</h1>
           <Input label="Email" onChange={(e) => setEmail(e.target.value)}type="email" variant="flat" className="mt-4" value={email}/>
           <Input label="Password" value={password} onChange= {(e) => setPassword(e.target.value)}type="password" variant="flat" className="mt-4" />
@@ -46,9 +47,13 @@ const Page = () => {
             <Link href="/reset" className="text-sm text-gray-600 text-nowrap">忘记密码</Link>
           </div>
 
-          <Button onPress={handleSubmit} className="bg-blue-500 mt-4">
+          <Button onPress={handleSubmit} className="bg-blue-500 mt-2">
             Submit
           </Button>
+          <ToastContainer 
+          position="top-center"/>
+          <span className="mt-4 text-sm">还没有账号？</span>
+          <button className='text-sm underline text-blue-500' onClick={() => route.push('/signup')}>注册</button>
         </motion.div>
       </div>
   );
