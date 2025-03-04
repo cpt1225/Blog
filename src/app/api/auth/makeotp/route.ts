@@ -1,22 +1,23 @@
-import {NextRequest , NextResponse} from "next/server";
+import {NextRequest } from "next/server";
 import { sendOTPEmail } from "@/lib/mailer";
 import redis from "@/lib/redis";
+import { errorResponse, successResponse } from "@/types/response";
 
 export async function POST(request: NextRequest) {
-  try{
+  try {
     const { email } = await request.json();
     if(!email){
-      return NextResponse.json({message: '请输入你的邮箱'})
+      return errorResponse({message: '请输入你的邮箱'})
     }
     if(await redis.get(email)){
-      return NextResponse.json({message: '请勿频繁发送验证码'})
+      return errorResponse({message: '请勿频繁发送验证码'})
     }
     const otp = Math.random().toString().slice(-6);
     await redis.set(email,otp,'EX',300);
     await sendOTPEmail(email,otp);
-    return NextResponse.json({message: '发送验证码成功'},{status:200})
+    return successResponse({message: '发送验证码成功'})
   }catch {
-    return NextResponse.json({message: 'error'},{status:500})
+    return errorResponse({message: 'error'})
   }
 }
 

@@ -1,13 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import session from '@/utils/session';
 import prisma from '@/lib/prisma';
+import { errorResponse, successResponse } from '@/types/response';
 
 
 export async function GET() {
   try {
     const {userid,role} = await session();
     if(!userid || role ==='user') {
-      return NextResponse.json({message: "权限不足" });
+      return errorResponse({message: "权限不足" });
     }
     const users = await prisma.user.findMany({
       select: {
@@ -18,12 +19,12 @@ export async function GET() {
       }
     })
     if(!users){
-      return NextResponse.json({message: "未获取用户" });
+      return errorResponse({message: "未获取用户" });
     }
-    return NextResponse.json({users});
+    return successResponse({data:users,message:'获取成功'});
   } catch {
 
-    return NextResponse.json({message: "系统错误" });
+    return errorResponse({message: "系统错误" });
   }
 }
 
@@ -31,17 +32,17 @@ export const PUT = async (request:NextRequest) => {
   try {
     const {userid,role} = await session();
     if (!userid || role !== 'root') {
-      return NextResponse.json({message: '权限不足'});
+      return errorResponse({message: '权限不足'});
     }
     const {id,action} = await request.json();
     const user = await prisma.user.findUnique({
       where:{id}
     });
     if(!user){
-      return NextResponse.json({message:'用户不存在'});
+      return errorResponse({message:'用户不存在'});
     }
     if(user.role === 'root'){
-      return NextResponse.json({message:'权限不足'});
+      return errorResponse({message:'权限不足'});
     }
     switch(action){
       case 'down':
@@ -49,17 +50,17 @@ export const PUT = async (request:NextRequest) => {
           where:{id:id},
           data:{role:'user'}
         });
-        return NextResponse.json({message:'操作成功'});
+        return successResponse({message:'操作成功'});
       case 'up':
         await prisma.user.update({
           where:{id:id},
           data:{role:'admin'}
         });
-        return NextResponse.json({message:'操作成功'});
+        return successResponse({message:'操作成功'});
       default:
-        return NextResponse.json({message:'操作失败'});
+        return errorResponse({message:'操作失败'});
     }
   }catch {
-    return NextResponse.json({message:'系统错误'});
+    return errorResponse({message:'系统错误'});
   }
 }

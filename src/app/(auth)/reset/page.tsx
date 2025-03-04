@@ -10,7 +10,6 @@ import { Button } from '@heroui/button'
 import { toast, ToastContainer } from 'react-toastify'
 
 
-
 const Page = () => {
   const route = useRouter();
   const [email, setEmail] = useState('')
@@ -41,6 +40,7 @@ const Page = () => {
     try {
       if (!email) {
         toast.error('请输入邮箱')
+        return;
       }
       const res = await request({
         url: '/auth/makeotp',
@@ -50,7 +50,7 @@ const Page = () => {
       if(res.data.code === 200) {
         toast.success('发送成功');
       } else {
-        toast.error('发送失败')
+        toast.error(res.data.message)
       }
     } catch {
       toast.error('系统出错')

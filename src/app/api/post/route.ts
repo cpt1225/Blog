@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
+import { errorResponse, successResponse } from '@/types/response';
 
 export async function GET() {
   try {
@@ -9,9 +10,9 @@ export async function GET() {
       include: { author: true },
     });
     
-    return NextResponse.json(posts);
+    return successResponse({data:posts,message:'获取成功'});
   } catch {
-    return NextResponse.json({message: 'error'}, {status: 500});
+    return errorResponse({message: 'error',status: 500});
   }
 }
 
@@ -19,11 +20,11 @@ export async function POST(req:NextRequest) {
   const { title, content } = await req.json();
   const session = await auth();
     if(!session || !session.user || !session.user.name || !session.user.id) {
-      return NextResponse.json({message: '还没有登录'}, {status: 401});
+      return errorResponse({message: '还没有登录',status: 401});
     }
   try{
     if(!content || !content.trim() || !title || !title.trim()){
-      return NextResponse.json({message: '参数不完整'})
+      return errorResponse({message: '参数不完整'})
     }
     await prisma.post.create({
       data: {
@@ -32,8 +33,8 @@ export async function POST(req:NextRequest) {
         authorId: Number(session.user.id),
       }
     });
-    return NextResponse.json({message: '保存成功'});
+    return successResponse({message: '保存成功'});
   } catch {
-    return NextResponse.json({message: 'error'}, {status: 500});
+    return errorResponse({message: 'error',status: 500});
   }
 }
