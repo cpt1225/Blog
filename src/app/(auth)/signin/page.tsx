@@ -27,17 +27,14 @@ const Page = () => {
       route.push('/');
     }
   };
-
-
   return (
-    <div className='flex w-full h-screen bg-[#f1f1f1]'>
       <div className="w-full lg:w-1/2 flex justify-center items-center">
         <motion.div initial={{ x: -50 }}
           animate={{ x: 0 }}
           transition={{
             duration: 1.1,
             type: "spring",
-            damping: 15,  // 临界阻尼
+            damping: 10,  // 临界阻尼
             stiffness: 120
           }}
           className="w-1/2 border-1 border-gray-400 p-10 flex-col rounded-lg flex justify-center  items-center">
@@ -49,25 +46,11 @@ const Page = () => {
             <Link href="/reset" className="text-sm text-gray-600 text-nowrap">忘记密码</Link>
           </div>
 
-          <Button onClick={handleSubmit} className="bg-violet-500 mt-4">
+          <Button onPress={handleSubmit} className="bg-blue-500 mt-4">
             Submit
           </Button>
         </motion.div>
       </div>
-      <div className="bg-gray-200 relative hidden w-1/2 lg:flex h-full items-center justify-center ">
-        <motion.div initial={{ rotate: 0 }}
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "loop"
-          }}
-          whileHover={{ scale: 1.1 }}
-          className="w-60 h-60 bg-gradient-to-tr from-violet-500 to-pink-500 rounded-full">
-        </motion.div>
-        <div className="w-full h-1/2 bg-white/10  bottom-0 absolute backdrop-blur-lg"></div>
-      </div>
-    </div>
   );
 };
 

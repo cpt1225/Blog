@@ -33,7 +33,6 @@ export default function RootLayout({
           <HeroUIProvider>
             {children}
           </HeroUIProvider>
-
         </SessionProvider>
       </body>
     </html>
