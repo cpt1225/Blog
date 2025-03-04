@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
+    "@heroui/button": "^2.2.15",
+    "@heroui/form": "^2.1.14",
+    "@heroui/input": "^2.4.15",
     "@heroui/system": "^2.4.11",
     "@heroui/theme": "^2.4.11",
     "@prisma/client": "^6.4.1",
