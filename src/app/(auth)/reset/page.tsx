@@ -1,69 +1,86 @@
 'use client'
 import { useState } from 'react'
 import request from '@/lib/axios'
+import { Input } from '@heroui/input'
+import { Mail } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from "next/navigation";
+import { motion } from 'framer-motion'
+import { Button } from '@heroui/button'
+import { toast, ToastContainer } from 'react-toastify'
+
+
 
 const Page = () => {
-  const [email,setEmail] = useState('')
-  const [newPassword,setNewPassword] = useState('')
-  const [confirmPassword,setConfirmPassword] = useState('')
-  const [code,setCode] = useState('')
+  const route = useRouter();
+  const [email, setEmail] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [code, setCode] = useState('')
 
   const handleSubmit = async () => {
-    try{
-      if(!email || !newPassword || !confirmPassword || !code){
-        alert('参数不完整')
-      }
-      if(newPassword !== confirmPassword){
-        alert('两次密码不一致')
+    try {
+      if (!email || !newPassword || !code) {
+        toast.error('参数不完整')
       }
       const res = await request({
         url: '/auth/reset',
         method: 'POST',
-        data: {email,newPassword,code}
+        data: { email, newPassword, code }
       })
-      console.log(res)
-    } catch(_){
-      console.log(_)
+      if (res.data.code === 200) {
+        toast.success('重置成功');
+        setTimeout(() => {
+          route.push('/signin')
+        }, 2000);
+      }
+    } catch {
+      toast.error('系统出错');
     }
   }
   const handleSet = async () => {
-    try{
-      if(!email){
-        alert('请输入邮箱')
+    try {
+      if (!email) {
+        toast.error('请输入邮箱')
       }
       const res = await request({
         url: '/auth/makeotp',
         method: 'POST',
-        data: {email}
+        data: { email }
       })
-      console.log(res)
-    }catch(_){
-      console.log(_)
+      if(res.data.code === 200) {
+        toast.success('发送成功');
+      } else {
+        toast.error('发送失败')
+      }
+    } catch {
+      toast.error('系统出错')
     }
   }
   return (
-    <div>
-      <h1>Reset Password</h1>
-      
-        <label>
-          Email
-          <input value={email}  onChange={(e) => setEmail(e.target.value)} className="bg-green-300"/>
-        </label>
-        <label>
-          New Password
-          <input value={newPassword}  onChange={(e) => setNewPassword(e.target.value)} className="bg-green-300"/>
-        </label>
-        <label>
-          re-enter Password
-          <input value={confirmPassword}  onChange={(e) => setConfirmPassword(e.target.value)} className="bg-green-300"/>
-        </label>
-        <label>
-          Code
-          <input value={code}  onChange={(e) => setCode(e.target.value)} className="bg-green-300"/>
-          <button onClick={handleSet}>Send Code</button>
-        </label>
-        <br/>
-        <button type="submit" onClick={handleSubmit} className='bg-red-400'>Reset</button>
+    <div className='w-full lg:w-1/2 flex justify-center items-center'>
+      <div
+        className="w-1/2 border-1 border-gray-400 p-10 pb-6 flex-col rounded-lg flex justify-center  items-center">
+        <h1 className="text-blue-500 text-xl font-semibold text-nowrap">AC</h1>
+
+        <Input label="Email" onChange={(e) => setEmail(e.target.value)} type="email" variant="flat" className="mt-4" value={email} />
+        <Input label="newPassword" onChange={(e) => setNewPassword(e.target.value)} type="password" variant="flat" className="mt-4" value={newPassword} />
+
+        <div className="flex w-full relative">
+          <Input label="Code" onChange={(e) => setCode(e.target.value)} type="text" variant="flat" className="mt-4" value={code} />
+          <motion.button
+            onClick={handleSet}
+            className="text-blue-500 absolute right-2 top-8">
+            <Mail />
+          </motion.button>
+        </div>
+        <div className="flex justify-between  w-full mt-2">
+          <Link href='/' className="text-sm text-gray-600  text-nowrap">返回首页</Link>
+          <Link href="/signin" className="text-sm text-gray-600 text-nowrap">登录</Link>
+        </div>
+        <Button onPress={handleSubmit} className="bg-blue-500 mt-2">Submit</Button>
+        <ToastContainer
+          position="top-center" />
+      </div>
     </div>
   )
 }

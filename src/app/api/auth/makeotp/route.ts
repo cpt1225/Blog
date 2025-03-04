@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     const otp = Math.random().toString().slice(-6);
     await redis.set(email,otp,'EX',300);
     await sendOTPEmail(email,otp);
-    return NextResponse.json({message: '发送验证码成功'})
+    return NextResponse.json({message: '发送验证码成功'},{status:200})
   }catch {
     return NextResponse.json({message: 'error'},{status:500})
   }

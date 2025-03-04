@@ -35,7 +35,7 @@ const Page = () => {
           transition={{
             duration: 1.1,
             type: "spring",
-            damping: 10,  // 临界阻尼
+            damping: 10,  
             stiffness: 120
           }}
           className="w-1/2 border-1 border-gray-400 p-10 pb-6 flex-col rounded-lg flex justify-center  items-center">
