@@ -1,97 +1,71 @@
 'use client';
-
-import {useState} from "react";
+import { useState } from "react";
 import request from "@/lib/axios";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import { Input } from "@heroui/input";
+import { Button } from "@heroui/button";
+import { Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
 
 const Page = () => {
-  const [username,setUsername] = useState('');
-  const [password,setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const route = useRouter();
 
   const register = async () => {
     try {
-      const response = await request( {
+      const response = await request({
         url: '/auth/signup',
         method: 'POST',
-        data:{ username, password, email, code },
+        data: { username, password, email, code },
       });
-        const data = await response.data;
-        console.log(data.message);
-        alert(data.message);
+      const data = await response.data;
+      if(data.code === 200) {
+        toast.success(data.message);
         route.push('/signin');
-    }catch(_){
-      console.log('注册失败',_);
-  }}
+      } else{
+        toast.warn(data.message);
+      }
+    } catch  {
+      toast.error('系统错误')
+    }
+  }
   const sendCode = async () => {
     try {
       const response = await request({
         url: '/auth/makeotp',
         method: 'POST',
-        data: {email},
+        data: { email },
       });
-        const data = await response.data;
-        alert(data.message);
-    } catch (_) {
-      alert(_);
+      const data = await response.data;
+      if (data.code === 200) {
+        toast.success(data.message);
+      } else {
+        toast.warn(data.message);
+      }
+    } catch  {
+      toast.error('发送失败');
     }
   }
   return (
-    <div>
-      <form>
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-          <div className="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-md">
-            <h1 className="text-2xl font-bold text-center">注册</h1>
-
-
-            <input
-              type="text"
-              placeholder="用户名"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
-              required
-            />
-            <input
-              type="password"
-              placeholder="密码"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
-              required
-            />
-            <input
-              type="email"
-              placeholder="邮箱"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
-              required
-            />
-            <input
-              type="text"
-              placeholder="验证码"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
-              required
-            />
-            <button onClick={sendCode} type="button"
-                    className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
-              发送验证码
-            </button>
-
-            <button
-              onClick={register}
-              className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-            >
-              注册
-            </button>
-          </div>
+    <div className="w-full lg:w-1/2 flex justify-center items-center">
+      <div
+        className="w-1/2 border-1 border-gray-400 p-10 pb-6 flex-col rounded-lg flex justify-center  items-center">
+        <h1 className="text-blue-500 text-xl font-semibold text-nowrap">AC</h1>
+        <Input label="Username" onChange={(e) => setUsername(e.target.value)} type="text" variant="flat" className="mt-4" value={username} />
+        <Input label="Email" onChange={(e) => setEmail(e.target.value)} type="email" variant="flat" className="mt-4" value={email} />
+        <Input label="Password" onChange={(e) => setPassword(e.target.value)} type="password" variant="flat" className="mt-4" value={password} />
+        <div className="flex w-full relative">
+          <Input label="Code" onChange={(e) => setCode(e.target.value)} type="text" variant="flat" className="mt-4" value={code} />
+          <motion.button onClick={sendCode} className="text-blue-500 absolute right-2 top-8"><Mail /></motion.button>
         </div>
-      </form>
+        <Button onPress={register} className="bg-blue-500 mt-2">Submit</Button>
+        <ToastContainer
+          position="top-center" />
+      </div>
     </div>
   );
 }

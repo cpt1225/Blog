@@ -23,7 +23,7 @@ const Page = () => {
     });
 
     if (result?.error) {
-      toast('用户名或密码错误')
+      toast.warn('邮箱或密码错误');
     } else {
       route.push('/');
     }
