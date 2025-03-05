@@ -5,12 +5,14 @@ import Link from "next/link"
 import { useSession } from "next-auth/react"
 import { motion, AnimatePresence } from "framer-motion"
 import { signIn } from "next-auth/react"
+import { Archive } from 'lucide-react';
 import { signOut } from "next-auth/react"
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { data: session } = useSession();
-  const sign = session ? "SignOut" : "SignIn";
+  const { data: session, status } = useSession()
+  const isAuthenticated = status === "authenticated";
+  const sign = session ? "SignOut" : "SignIn"
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -74,10 +76,23 @@ export default function Navbar() {
         </div>
 
         {/* Sign out button (desktop) */}
-        <div className="hidden md:block">
-          <button  onClick={() => (sign === 'SignOut' ? signOut() : signIn())} className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 hover:text-blue-600 ">
-            {sign}
+        <div className="hidden md:flex relative">
+          <button onClick={() => isAuthenticated ? signOut() : signIn()}
+            className=" w-24 rounded-md border border-gray-300 mr-2
+          bg-white px-3 py-2 text-sm font-medium text-gray-700
+           shadow-sm transition-colors hover:bg-gray-50 hover:text-blue-600 ">
+            {status === "loading" ? "..." : sign}
           </button>
+          <div className="relative ml-10">
+            {sign === 'SignOut' && (
+              <Link href="/admin">
+                <Archive size={36}
+                  strokeWidth={1.75}
+                  className="text-gray-700 hover:text-blue-500 absolute right-0" />
+              </Link>
+            )}
+          </div>
+
         </div>
 
         {/* Mobile navigation */}

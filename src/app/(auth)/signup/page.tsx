@@ -18,7 +18,7 @@ const Page = () => {
 
   const register = async () => {
     try {
-      const res= await request({
+      const res = await request({
         url: '/auth/signup',
         method: 'POST',
         data: { username, password, email, code },
@@ -51,7 +51,15 @@ const Page = () => {
   }
   return (
     <div className="w-full lg:w-1/2 flex justify-center items-center">
-      <div
+      <motion.div
+        initial={{ x: -50 }}
+        animate={{ x: 0 }}
+        transition={{
+          duration: 1.1,
+          type: "spring",
+          damping: 10,
+          stiffness: 120
+        }}
         className="w-1/2 border-1 border-gray-400 p-10 pb-6 flex-col rounded-lg flex justify-center  items-center">
         <h1 className="text-blue-500 text-xl font-semibold text-nowrap">AC</h1>
         <Input label="Username"
@@ -64,7 +72,7 @@ const Page = () => {
           type="email" variant="flat" className="mt-4" />
         <Input label="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)} 
+          onChange={(e) => setPassword(e.target.value)}
           type="password" variant="flat" className="mt-4" />
         <div className="flex w-full relative">
           <Input label="Code" onChange={(e) => setCode(e.target.value)} type="text" variant="flat" className="mt-4" value={code} />
@@ -83,7 +91,7 @@ const Page = () => {
         <Button onPress={register} className="bg-blue-500 mt-2">Submit</Button>
         <ToastContainer
           position="top-center" />
-      </div>
+      </motion.div>
     </div>
   );
 }

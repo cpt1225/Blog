@@ -47,7 +47,7 @@ const Page = () => {
         method: 'POST',
         data: { email }
       })
-      if(res.data.status === 200) {
+      if (res.data.status === 200) {
         toast.success('发送成功');
         setTimeout(() => {
           route.push('/signin')
@@ -61,7 +61,15 @@ const Page = () => {
   }
   return (
     <div className='w-full lg:w-1/2 flex justify-center items-center'>
-      <div
+      <motion.div
+        initial={{ x: -50 }}
+        animate={{ x: 0 }}
+        transition={{
+          duration: 1.1,
+          type: "spring",
+          damping: 10,
+          stiffness: 120
+        }}
         className="w-1/2 border-1 border-gray-400 p-10 pb-6 flex-col rounded-lg flex justify-center  items-center">
         <h1 className="text-blue-500 text-xl font-semibold text-nowrap">AC</h1>
 
@@ -83,7 +91,7 @@ const Page = () => {
         <Button onPress={handleSubmit} className="bg-blue-500 mt-2">Submit</Button>
         <ToastContainer
           position="top-center" />
-      </div>
+      </motion.div>
     </div>
   )
 }

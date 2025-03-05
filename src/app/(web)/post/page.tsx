@@ -30,7 +30,8 @@ const Page = () => {
     <>
       <div className=' mx-10 mt-10 md:mx-20'>
         <h1 className='text-2xl text-nowrap'>最新文章</h1>
-        <ToastContainer />
+        <ToastContainer 
+        position='top-center'/>
         {isloading ? (
           <div>加载中...</div>
         ) : (
