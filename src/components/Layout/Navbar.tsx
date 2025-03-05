@@ -134,6 +134,15 @@ export default function Navbar() {
                   >
                     {sign}
                   </button>
+                  {sign === 'SignOut' && (
+                    <Link href="/admin">
+                      <button
+                        className="w-full mt-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 hover:text-blue-600 "
+                      >
+                        dashboard
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </motion.div>
