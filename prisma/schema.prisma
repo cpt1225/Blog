@@ -20,8 +20,8 @@ model User {
 
 model Post {
   id         Int      @id @default(autoincrement()) @map("id")
-  title      String?  @map("title")
-  content    String   @map("content")
+  title      String   @map("title")
+  content    String?  @db.LongText @map("content")
   createTime DateTime @default(now()) @map("create_time")
   authorId   Int      @map("author_id")
   author     User     @relation(fields: [authorId], references: [id]) 
