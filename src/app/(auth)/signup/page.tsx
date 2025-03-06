@@ -25,7 +25,9 @@ const Page = () => {
       });
       if (res.data.status === 200) {
         toast.success(res.data.message);
-        route.push('/signin');
+        setTimeout(() => {
+          route.push('/signin');
+        }, 1000);
       } else {
         toast.warn(res.data.message);
       }
