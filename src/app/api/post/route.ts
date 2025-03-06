@@ -26,6 +26,7 @@ export async function POST(req:NextRequest) {
     if(!content || !content.trim() || !title || !title.trim()){
       return errorResponse({message: '参数不完整'})
     }
+    console.log('Raw Content:', content);
     await prisma.post.create({
       data: {
         title,
