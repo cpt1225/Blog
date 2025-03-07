@@ -15,7 +15,7 @@ const Page = () => {
         if(res.status !== 200) {
           throw new Error('未获取到博客')
         }
-        setPosts(res.data || [])
+        setPosts(res.data.data || [])
       } catch(error) {
         console.log('error', error)
         setError('网络错误')
