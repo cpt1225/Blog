@@ -17,6 +17,7 @@
     "@prisma/client": "^6.4.1",
     "@types/ioredis": "^4.28.10",
     "@types/nodemailer": "^6.4.17",
+    "@uiw/react-md-editor": "^4.0.5",
     "axios": "^1.7.9",
     "bcryptjs": "^3.0.2",
     "framer-motion": "^12.4.7",
@@ -27,7 +28,6 @@
     "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-markdown": "^10.0.0",
     "react-toastify": "^11.0.5"
   },
   "devDependencies": {
