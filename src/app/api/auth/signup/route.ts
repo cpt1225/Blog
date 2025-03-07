@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import redis from "@/lib/redis";
 import { errorResponse, successResponse } from "@/types/response";
 
