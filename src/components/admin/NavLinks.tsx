@@ -1,4 +1,4 @@
-import { BookText, Image, Pencil, User } from 'lucide-react';
+import { BookText, Image, Pencil, User,CircleGauge  } from 'lucide-react';
 import type { LucideIcon } from "lucide-react";
 import { auth } from '@/lib/auth'
 import Link from 'next/link';
@@ -7,10 +7,15 @@ const IconMap = {
   BookText,
   Image,
   Pencil,
+  CircleGauge,
 } as Record<string, LucideIcon>;
 
 const items = [
   {
+    title: '主板',
+    href: '/admin',
+    icon: 'CircleGauge'
+  }, {
     title: '文章',
     href: '/admin/post',
     icon: 'BookText'
