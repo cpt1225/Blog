@@ -14,7 +14,7 @@ export interface Post {
   content: string;
   authorId: number;
   createTime: Date;
-  user:User
+  author?: User;
 }
 
 export interface Feature {

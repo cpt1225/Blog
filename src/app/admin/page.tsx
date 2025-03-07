@@ -3,7 +3,7 @@
 
 const Page = () => {
   return (
-   <p>dashboard</p>
+   <p>完善ing</p>
   )
 }
 

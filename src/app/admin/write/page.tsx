@@ -23,17 +23,17 @@ const Page = () => {
   return (
     <>
       <input type="text" value={title} 
-      onChange={(e) => setTitle(e.target.value)} placeholder='标题' required></input>
+      onChange={(e) => setTitle(e.target.value)} placeholder='标题' required className=''></input>
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="内容"
-        className="w-full h-full p-2 border rounded text-gray-800 bg-white resize-none"
+        className="w-1/2 h-full p-2 border rounded text-gray-800 bg-white resize-none"
         required
       />
       <button  className='bg-red-400' onClick={handleSubmit}>提交</button>
-      <div className="border rounded p-4 bg-white prose overflow-y-auto h-full">
-            <h2 className="text-xl font-bold mb-4">预览</h2>
+      <div className="border rounded p-4 bg-white prose overflow-y-auto h-full markdown-body w-1/2">
+            
             <ReactMarkdown>{content}</ReactMarkdown>
           </div>
     </>
