@@ -23,8 +23,8 @@ export async function POST(req:NextRequest) {
       return errorResponse({message: '还没有登录',status: 401});
     }
   try{
-    if(!content || !content.trim() || !title || !title.trim()){
-      return errorResponse({message: '参数不完整'})
+    if( !title || !title.trim()){
+      return errorResponse({message: '未输入标题'})
     }
     console.log('Raw Content:', content);
     await prisma.post.create({

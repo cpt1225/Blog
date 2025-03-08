@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const path = join("/", "tmp", newFileName);
     await writeFile(path, buffer);
     console.log(`open ${path} to see the uploaded file`);
-    return successResponse({ message: "上传成功" });
+    return successResponse({ message: "上传成功",data: newFileName });
   } catch {
     return errorResponse({ message: "系统错误" });
   }
