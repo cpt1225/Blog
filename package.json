@@ -12,6 +12,7 @@
     "@auth/prisma-adapter": "^2.7.4",
     "@heroui/button": "^2.2.15",
     "@heroui/input": "^2.4.15",
+    "@heroui/modal": "^2.2.12",
     "@heroui/system": "^2.4.11",
     "@heroui/theme": "^2.4.11",
     "@prisma/client": "^6.4.1",
@@ -28,7 +29,8 @@
     "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "rehype-sanitize": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
