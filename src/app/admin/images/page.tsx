@@ -2,7 +2,7 @@
 
 const Page = () => {
   return (
-    <div>page</div>
+    <div>完善ing</div>
   )
 }
 
