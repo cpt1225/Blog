@@ -1,7 +1,7 @@
 import { Post } from '../../types'
 import { motion } from 'framer-motion'
 import Link from 'next/link';
-import { dateChange } from '@/utils/dateChange'
+import { dateChange } from '@/utils/date'
 
 
 const BlogCard = ({ post, index }: { post: Post, index: number }) => {

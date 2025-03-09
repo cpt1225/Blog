@@ -6,7 +6,6 @@ import rehypeSanitize from "rehype-sanitize";
 import { Button } from "@heroui/button";
 import { ToastContainer, toast } from 'react-toastify';
 import { Input } from "@heroui/input";
-
 import {
   Modal,
   ModalContent,
@@ -85,9 +84,11 @@ const Page = () => {
         setTitle('')
         setContent('')
         toast.success('发布成功')
+        
       } else {
         toast.error(res.data.message)
       }
+      onOpenChange()
     } catch {
       toast.error('系统错误')
     }

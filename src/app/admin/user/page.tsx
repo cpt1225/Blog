@@ -1,69 +1,201 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { User } from '@/types'
-import request from '@/lib/axios'
+import { useState, useCallback, useEffect } from "react";
+import { Tooltip } from "@heroui/tooltip";
+import { User } from "@heroui/user";
+import request from "@/lib/axios"
+import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
+import { ToastContainer, toast } from "react-toastify";
+import { User as Userteam } from "@/types"
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
+} from "@heroui/modal";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@heroui/table"
+import { dateChange } from "@/utils/date";
+
+export const columns = [
+  { name: "NAME", uid: "name" },
+  { name: "ROLE", uid: "role" },
+  { name: "CREATED", uid: "time" },
+  { name: "ACTIONS", uid: "actions" },
+];
+
+
 
 const Page = () => {
-  const [users,setUsers] = useState<User[]>([])
-  const [isLoading,setIsLoading] = useState(false)
-  const [error,setError] = useState('')
+  const [name, setName] = useState("")
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [users, setUsers] = useState<Userteam[]>([])
+  const [action, setAction] = useState<() => () => void>(() => () => () => { })
 
-  const fetchUsers = async () => {
-    setIsLoading(true)
-    try{
+  const fetchUsers = useCallback(async () => {
+    try {
       const res = await request({
         url: '/user',
         method: 'GET'
       })
-      if(res.status !== 200){
-        setError('未获取到用户')
-        throw new Error('未获取到用户')
+      if (res.data.status === 200) {
+        setUsers(res.data.data)
+      } else {
+        toast.error(res.data.message)
+        return []
       }
-      console.log(res)
-      setUsers(res.data.users || [])
-    } catch(_){
-      console.log(_)
-      setError('网络错误')
-    }finally{
-      setIsLoading(false)
+    } catch {
+      toast.error('系统错误')
     }
-  }
+  }, [])
 
-  const handleSubmit = (id: number,action: string) => async () => {
-    try{
-      const res = await request({
-        url: 'user',
-        method: 'PUT',
-        data: { id, action }
-      })
-      console.log(res)
-    }catch(_){
-      console.log(_)
-    }
-  }
   useEffect(() => {
     fetchUsers()
-  }, [])
+  }, [fetchUsers])
+  const boostUser = useCallback(async (id: number) => {
+    try {
+      const res = await request({
+        url: '/user',
+        method: 'PUT',
+        data: {
+          id,
+          action: 'up'
+        }
+      })
+      if (res.data.status === 200) {
+        toast.success(res.data.message)
+        await fetchUsers()
+      } else {
+        toast.error(res.data.message)
+      }
+    } catch {
+      toast.error('系统错误')
+    }
+  }, [fetchUsers])
+
+  const downUser = useCallback(async (id: number) => {
+    try {
+      const res = await request({
+        url: '/user',
+        method: 'PUT',
+        data: {
+          id,
+          action: 'down'
+        }
+      })
+      if (res.data.status === 200) {
+        toast.success(res.data.message)
+        await fetchUsers()
+      } else {
+        toast.error(res.data.message)
+      }
+
+    } catch {
+      toast.error('系统错误')
+    }
+  }, [fetchUsers])
+
+
+  const renderCell = useCallback((user: Userteam, columnKey: React.Key) => {
+    switch (columnKey) {
+      case "name":
+        return (
+          <User
+            avatarProps={{ radius: "lg" }}
+            description={user.email}
+            name={user.username}
+          >
+            {user.email}
+          </User>
+        );
+      case "role":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm ">{user.role}</p>
+          </div>
+        );
+      case "time":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize text-default-400">{dateChange(user.createTime)}</p>
+          </div>
+        );
+      case "actions":
+        return (
+          <div className="relative flex items-center gap-2">
+            <Tooltip content="提高权限">
+              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                <button onClick={() => {
+                  setName(user.username)
+                  setAction(() => () => boostUser(user.id))
+                  onOpen()
+                }}> <ArrowBigUp /></button>
+              </span>
+            </Tooltip>
+            <Tooltip content="降低权限">
+              <span className="text-lg  text-default-400 cursor-pointer active:opacity-50">
+                <button onClick={() => {
+                  setName(user.username)
+                  setAction(() => () => downUser(user.id))
+                  onOpen()
+                }}><ArrowBigDown /></button>
+              </span>
+            </Tooltip>
+          </div>
+        );
+    }
+  }, [onOpen, boostUser, downUser]);
+
   return (
-    <div>
-      <h1>Admin User Page</h1>
-      {isLoading ? <p>Loading...</p> : (
-        users.length > 0 ? (
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                {user.username}
-                <button onClick={handleSubmit(user.id,'up')}>提升权限</button>
-                <button onClick={handleSubmit(user.id,'down')}>降低权限</button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div>{error || 'Hello'}</div>
-        )
-      ) }
-    </div>
-  )
+    <>
+      <ToastContainer
+        closeOnClick={true}
+        position="top-center"
+        autoClose={3000} />
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent className="flex items-center">
+          {(onClose) => (
+            <>
+              <ModalBody className="mt-8 text-sm flex justify-center items-center font-bold">操作该用户{name}?</ModalBody>
+              <ModalFooter>
+                <button className="bg-black text-white rounded-lg p-1 text-sm hover:bg-white hover:text-black" onClick={onClose}>
+                  取消
+                </button>
+                <button  className="bg-black text-white rounded-lg p-1 text-sm hover:bg-white hover:text-black" onClick={() => {
+                  action();
+                  onClose();
+                }}>
+                  确定
+                </button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Table aria-label="Example table with custom cells">
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn key={column.uid}>
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={users}>
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
+  );
 }
 
 export default Page

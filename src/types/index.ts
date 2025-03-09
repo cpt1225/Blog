@@ -5,7 +5,7 @@ export interface User {
   avatar: string;
   email: string;
   role: string;
-  createdTime: Date;
+  createTime: Date;
 }
 
 export interface Post {

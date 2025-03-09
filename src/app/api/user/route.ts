@@ -16,6 +16,7 @@ export async function GET() {
         username: true,
         email: true,
         role: true,
+        createTime: true,
       }
     })
     if(!users){
