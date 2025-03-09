@@ -114,7 +114,7 @@ export default function Navbar() {
                   Home
                 </Link>
                 <Link
-                  href="/blog"
+                  href="/post"
                   className="text-lg font-medium text-gray-700 transition-colors hover:text-blue-600"
                   onClick={() => setIsMenuOpen(false)}
                 >

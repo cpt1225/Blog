@@ -14,7 +14,7 @@ const scrollButton = {
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden bg-gray-200 pt-10">
+    <section className="relative overflow-hidden bg-gray-200 pt-10 h-screen">
       <div className="relative px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

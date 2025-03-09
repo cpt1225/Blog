@@ -1,7 +1,7 @@
 import { Post } from '../../types'
 import { motion } from 'framer-motion'
 import Link from 'next/link';
-import { dateChange } from '@/utils/date'
+
 
 
 const BlogCard = ({ post, index }: { post: Post, index: number }) => {
@@ -17,7 +17,7 @@ const BlogCard = ({ post, index }: { post: Post, index: number }) => {
       >
 
         <h3 className="text-lg text-blue-900 mx-4">{post.title}</h3>
-        <p className="text-gray-900 mx-4">{dateChange(post.createTime)}</p>
+        <p className="text-gray-900 mx-4">{post.author?.username}</p>
         <Link href={`/post/${post.id}`} className='absolute bottom-4 right-4 text-xs text-gray-600 md:text-sm'>
           Look
         </Link>

@@ -5,6 +5,7 @@ import request from "@/lib/axios"
 import { Eye, Trash2, FilePenLine } from 'lucide-react';
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
 import { Post } from "@/types";
 import {
   Modal,
@@ -54,6 +55,7 @@ const Page = () => {
       toast.error('系统错误')
     }
   }, [])
+
 
   useEffect(() => {
     fetchPosts()
@@ -130,6 +132,10 @@ const Page = () => {
             );
     }
   }, [onOpen,router,deletePost]);
+  
+  if(posts === null) {
+    return <Loading />
+  }
 
   return (
     <>
