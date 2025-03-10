@@ -26,7 +26,7 @@ import { dateChange } from "@/utils/date";
 
 
 
-export const columns = [
+const columns = [
   { name: "AUTHOR", uid: "author" },
   { name: "TITLE", uid: "title" },
   { name: "CREATED", uid: "time" },

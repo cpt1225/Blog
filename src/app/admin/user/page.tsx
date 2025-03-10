@@ -23,7 +23,7 @@ import {
 } from "@heroui/table"
 import { dateChange } from "@/utils/date";
 
-export const columns = [
+const columns = [
   { name: "NAME", uid: "name" },
   { name: "ROLE", uid: "role" },
   { name: "CREATED", uid: "time" },
